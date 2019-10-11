@@ -1,6 +1,8 @@
 #Folders
 game_data
-
+__pycache__
 
 #Files
 *.ipynb
+*.bk2
+neat-checkpoint-1   

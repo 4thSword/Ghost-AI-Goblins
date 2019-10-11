@@ -1,24 +1,86 @@
 import retro
 import neat
-import numpy as np
 import cv2
 import pickle
+import numpy as np
 
-env = retro.make('GhostsnGoblins-Nes',)
+def image_to_array(image,inx,iny):
+    # Converts image to an inx * iny size, change color to greyscale and flatten it into 1D ndarray
+    image = cv2.resize(image,(inx,iny)) 
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) 
+    image = np.reshape(image,(inx,iny))
+    return np.ndarray.flatten(image)
 
-confing = neat.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,'config-feedforward')
+def eval_genomes(genomes, config):  
 
-env.reset()
+    for genome_id, genome in genomes:
+        
+        observ = env.reset() # First image observed
+        random_action = env.action_space.sample()
 
-done = False
+        # Takes a tuple with the size of the image and; inc = color
+        inx,iny,inc = env.observation_space.shape 
+        # Image reduction for faster processing
+        inx = int(inx/8)
+        iny = int(iny/8)
+        # 20 Networks
+        net = neat.nn.RecurrentNetwork.create(genome,config)
+        current_max_fitness = 0
+        fitness_current = 0
+        frame = 0
+        counter = 0
+        
+        done = False
+
+        while not done:
+            #env.render() # Shows the game playing.
+            frame+=1
+
+            #Converts the curent frame to grayscale, reduces it and flatten into an array.
+            oned_image = image_to_array(observ,inx,iny)
+
+            # Give an output for current frame from neural network
+            neuralnet_output = net.activate(oned_image)
+
+            # Try given output from network in the game and takes the new response from the environment.
+            observ, reward, done, info = env.step(neuralnet_output)
+
+            fitness_current += reward
+            if fitness_current>current_max_fitness:
+                current_max_fitness = fitness_current
+                counter = 0
+            else:
+                counter+=1
+                # count the frames until it successful
+
+            # Train for max 250 frames
+            if done or counter == 250:
+                done = True 
+                print(genome_id,fitness_current)
+            
+            genome.fitness = fitness_current
+
+
 if __name__ == "__main__":
-    
-    while not done:
-     #env.render()
-     action = env.action_space.sample()
-     #action = [0, 1, 1, 0, 0, 1, 1, 1, 1]
+    # Creates our ghosts and goblings environment:
+    #env = retro.make('GhostsnGoblins-Nes','Level1')
+    env = retro.make(game='GhostsnGoblins-Nes', record='.')
+    # Loads our selected configuration for our Neat neural network:
+    config = neat.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,'config-feedforward')
 
-     ob, reward, done, info = env.step(action)
-     print("Action:",action)
-     print('Image:',ob.shape, "reward:",reward, "done",done)
-     print('Info:',info)
+    
+    p = neat.Population(config)
+
+    p.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    p.add_reporter(stats)
+    # Save the process after each 10 frames
+    p.add_reporter(neat.Checkpointer(10))
+
+    winner = p.run(eval_genomes)
+
+    with open('winner.pkl', 'wb') as output:
+        pickle.dump(winner, output, 1)
+    
+    
+    
