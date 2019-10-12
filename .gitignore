@@ -5,4 +5,5 @@ __pycache__
 #Files
 *.ipynb
 *.bk2
-neat-checkpoint-1   
+*.mp4
+neat-checkpoint-*   

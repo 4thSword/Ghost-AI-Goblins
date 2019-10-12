@@ -13,6 +13,7 @@ def image_to_array(image,inx,iny):
 
 def eval_genomes(genomes, config):  
 
+
     for genome_id, genome in genomes:
         
         observ = env.reset() # First image observed
@@ -33,7 +34,8 @@ def eval_genomes(genomes, config):
         done = False
 
         while not done:
-            #env.render() # Shows the game playing.
+            # Shows the game playing, comment it to a fas training.
+            env.render() 
             frame+=1
 
             #Converts the curent frame to grayscale, reduces it and flatten into an array.
@@ -53,8 +55,8 @@ def eval_genomes(genomes, config):
                 counter+=1
                 # count the frames until it successful
 
-            # Train for max 250 frames
-            if done or counter == 250:
+            # Train for max 300 frames
+            if done or counter == 400:
                 done = True 
                 print(genome_id,fitness_current)
             
@@ -68,14 +70,25 @@ if __name__ == "__main__":
     # Loads our selected configuration for our Neat neural network:
     config = neat.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,'config-feedforward')
 
+    '''
+    with open('winner.pkl', 'rb') as input_file:
+        genome = pickle.load(input_file)
+    '''
+
     
     p = neat.Population(config)
+    #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-439')
+
+    
 
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
+    
     p.add_reporter(stats)
     # Save the process after each 10 frames
     p.add_reporter(neat.Checkpointer(10))
+
+    #pe = neat.ParallelEvaluator(4, eval_genomes)
 
     winner = p.run(eval_genomes)
 
