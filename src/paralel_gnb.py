@@ -50,7 +50,7 @@ class Worker(object):
             # Train for max 250 frames
             if done or counter == 1000:
                 done = True 
-                print(self.genome,fitness_current)
+                print(fitness_current)
             
             
 
@@ -72,7 +72,7 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                      'config-feedforward')
 
 p = neat.Population(config)
-p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-911')
+p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1516')
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)

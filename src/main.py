@@ -65,8 +65,8 @@ def eval_genomes(genomes, config):
 
 if __name__ == "__main__":
     # Creates our ghosts and goblings environment:
-    #env = retro.make('GhostsnGoblins-Nes','Level1')
-    env = retro.make(game='GhostsnGoblins-Nes', record='.')
+    env = retro.make('GhostsnGoblins-Nes','Level1')
+    #env = retro.make(game='GhostsnGoblins-Nes', record='.')
     # Loads our selected configuration for our Neat neural network:
     config = neat.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,'config-feedforward')
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     
     p = neat.Population(config)
-    #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-439')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1516')
 
     
 
@@ -85,10 +85,9 @@ if __name__ == "__main__":
     stats = neat.StatisticsReporter()
     
     p.add_reporter(stats)
-    # Save the process after each 10 frames
-    p.add_reporter(neat.Checkpointer(10))
 
-    #pe = neat.ParallelEvaluator(4, eval_genomes)
+    # Save the process after each 10 Generations
+    p.add_reporter(neat.Checkpointer(10))
 
     winner = p.run(eval_genomes)
 
