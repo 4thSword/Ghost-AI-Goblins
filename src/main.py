@@ -50,7 +50,7 @@ def eval_genomes(genomes, config):
             observ, reward, done, info = env.step(neuralnet_output)
             
             if prev_lives>info['lives']:
-                fitness_current -= 500
+                fitness_current -= 1000
                 prev_lives = info['lives']
         
             fitness_current += reward
@@ -63,7 +63,7 @@ def eval_genomes(genomes, config):
                 # count the frames until it successful
 
             # Train for max 250 frames
-            if done or counter == 250:
+            if done or counter == 700:
                 done = True 
                 print(genome_id,fitness_current)
             
@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     
     p = neat.Population(config)
-    #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1172')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-24')
 
     
 

@@ -42,7 +42,7 @@ class Worker(object):
             ob, reward, done, info = self.env.step(actions)
             
             if prev_lives>info['lives']:
-                reward -= 5000
+                reward -= 1000
                 prev_lives = info['lives']
 
             fitness_current += reward
@@ -54,7 +54,7 @@ class Worker(object):
                 # count the frames until it successful
 
             # Train for maxs
-            if done or counter == 500:
+            if done or counter == 750:
                 done = True 
                 print(fitness_current)
             
@@ -80,7 +80,7 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
 p = neat.Population(config)
 
 
-#p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1172')
+#p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-109')
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
