@@ -80,7 +80,7 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
 p = neat.Population(config)
 
 
-#p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-109')
+p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-24')
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
