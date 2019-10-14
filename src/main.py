@@ -3,6 +3,7 @@ import neat
 import cv2
 import pickle
 import numpy as np
+import visualize
 
 def image_to_array(image,inx,iny):
     # Converts image to an inx * iny size, change color to greyscale and flatten it into 1D ndarray
@@ -30,6 +31,7 @@ def eval_genomes(genomes, config):
         fitness_current = 0
         frame = 0
         counter = 0
+        prev_lives = 3
         
         done = False
 
@@ -46,8 +48,13 @@ def eval_genomes(genomes, config):
 
             # Try given output from network in the game and takes the new response from the environment.
             observ, reward, done, info = env.step(neuralnet_output)
-
+            
+            if prev_lives>info['lives']:
+                fitness_current -= 500
+                prev_lives = info['lives']
+        
             fitness_current += reward
+            
             if fitness_current>current_max_fitness:
                 current_max_fitness = fitness_current
                 counter = 0
@@ -55,8 +62,8 @@ def eval_genomes(genomes, config):
                 counter+=1
                 # count the frames until it successful
 
-            # Train for max 300 frames
-            if done or counter == 400:
+            # Train for max 250 frames
+            if done or counter == 250:
                 done = True 
                 print(genome_id,fitness_current)
             
@@ -77,7 +84,7 @@ if __name__ == "__main__":
 
     
     p = neat.Population(config)
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1516')
+    #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1172')
 
     
 
@@ -85,11 +92,16 @@ if __name__ == "__main__":
     stats = neat.StatisticsReporter()
     
     p.add_reporter(stats)
-
+    
     # Save the process after each 10 Generations
     p.add_reporter(neat.Checkpointer(10))
 
     winner = p.run(eval_genomes)
+
+    visualize.draw_net(config, winner, True, node_names=node_names)
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
+    
 
     with open('winner.pkl', 'wb') as output:
         pickle.dump(winner, output, 1)

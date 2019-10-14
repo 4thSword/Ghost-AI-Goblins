@@ -3,7 +3,7 @@ import numpy as np  # pip install numpy
 import cv2          # pip install opencv-python
 import neat         # pip install neat-python
 import pickle       # pip install cloudpickle
-
+import os
 
 class Worker(object):
     def __init__(self, genome, config):
@@ -26,6 +26,8 @@ class Worker(object):
         current_max_fitness = 0
         fitness_current = 0
         counter = 0
+        prev_lives = 3
+
         imgarray = []
         
         while not done:
@@ -39,6 +41,10 @@ class Worker(object):
             
             ob, reward, done, info = self.env.step(actions)
             
+            if prev_lives>info['lives']:
+                reward -= 5000
+                prev_lives = info['lives']
+
             fitness_current += reward
             if fitness_current>current_max_fitness:
                 current_max_fitness = fitness_current
@@ -47,8 +53,8 @@ class Worker(object):
                 counter+=1
                 # count the frames until it successful
 
-            # Train for max 250 frames
-            if done or counter == 1000:
+            # Train for maxs
+            if done or counter == 500:
                 done = True 
                 print(fitness_current)
             
@@ -72,7 +78,9 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                      'config-feedforward')
 
 p = neat.Population(config)
-p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1516')
+
+
+#p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1172')
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
