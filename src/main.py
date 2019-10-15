@@ -50,7 +50,7 @@ def eval_genomes(genomes, config):
             observ, reward, done, info = env.step(neuralnet_output)
             
             if prev_lives>info['lives']:
-                fitness_current -= 500
+                fitness_current -= 1000
                 prev_lives = info['lives']
         
             fitness_current += reward
@@ -63,7 +63,7 @@ def eval_genomes(genomes, config):
                 # count the frames until it successful
 
             # Train for max 250 frames
-            if done or counter == 250:
+            if done or counter == 750:
                 done = True 
                 print(genome_id,fitness_current)
             
@@ -72,8 +72,8 @@ def eval_genomes(genomes, config):
 
 if __name__ == "__main__":
     # Creates our ghosts and goblings environment:
-    env = retro.make('GhostsnGoblins-Nes','Level1')
-    #env = retro.make(game='GhostsnGoblins-Nes', record='.')
+    #env = retro.make('GhostsnGoblins-Nes','Level1')
+    env = retro.make(game='GhostsnGoblins-Nes', record='.')
     # Loads our selected configuration for our Neat neural network:
     config = neat.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,'config-feedforward')
 
@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     
     p = neat.Population(config)
-    #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1172')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-684')
 
     
 
