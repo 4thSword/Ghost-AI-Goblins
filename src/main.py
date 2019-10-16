@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     
     p = neat.Population(config)
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-684')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-803')
 
     
 
