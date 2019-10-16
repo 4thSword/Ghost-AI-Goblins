@@ -7,3 +7,4 @@ __pycache__
 *.bk2
 *.mp4
 neat-checkpoint-*   
+.ipynb_checkpoints

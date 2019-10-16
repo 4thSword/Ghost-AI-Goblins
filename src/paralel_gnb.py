@@ -3,7 +3,7 @@ import numpy as np  # pip install numpy
 import cv2          # pip install opencv-python
 import neat         # pip install neat-python
 import pickle       # pip install cloudpickle
-import glob
+import glob, os
 
 class Worker(object):
     def __init__(self, genome, config):
@@ -68,19 +68,19 @@ def eval_genomes(genome, config):
 
 def load_last_checkpoint():
     try:
+        os.chdir('../checkpoints')
         checkpoints = [f for f in glob.glob('neat-checkpoint-*')]
         checkpoints = [int(f[16:])for f in checkpoints]
         checkpoints.sort()
         return neat.Checkpointer.restore_checkpoint('neat-checkpoint-{}'.format(checkpoints[-1]))
     except:
         print('No checkpoints in our folder, starting training from generation 0')
-
+        return neat.Population(config)
 
 config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, 
                      neat.DefaultSpeciesSet, neat.DefaultStagnation,
                      'config-feedforward')
 
-p = neat.Population(config)
 
 #Loads the last checkpoint if exists:
 p = load_last_checkpoint()
@@ -89,7 +89,7 @@ p = load_last_checkpoint()
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
-p.add_reporter(neat.Checkpointer(10))
+p.add_reporter(neat.Checkpointer(10,filename_prefix='../checkpoints/neat-checkpoint-'))
 
 pe = neat.ParallelEvaluator(8, eval_genomes)
 
