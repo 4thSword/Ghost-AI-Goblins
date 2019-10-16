@@ -4,6 +4,7 @@ import cv2
 import pickle
 import numpy as np
 import visualize
+import glob
 
 def image_to_array(image,inx,iny):
     # Converts image to an inx * iny size, change color to greyscale and flatten it into 1D ndarray
@@ -69,6 +70,15 @@ def eval_genomes(genomes, config):
             
             genome.fitness = fitness_current
 
+def load_last_checkpoint():
+    try:
+        checkpoints = [f for f in glob.glob('neat-checkpoint-*')]
+        checkpoints = [int(f[16:])for f in checkpoints]
+        checkpoints.sort()
+        return neat.Checkpointer.restore_checkpoint('neat-checkpoint-{}'.format(checkpoints[-1]))
+    except:
+        print('No checkpoints in our folder, starting training from generation 0')
+
 
 if __name__ == "__main__":
     # Creates our ghosts and goblings environment:
@@ -84,7 +94,11 @@ if __name__ == "__main__":
 
     
     p = neat.Population(config)
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-803')
+
+    # Restore the last checkpoint:
+    p = load_last_checkpoint()
+    # Uncomment to restore a selected checkpoint if don't want to restore last checkpoint 
+    #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-803')
 
     
 

@@ -84,6 +84,8 @@ p = neat.Population(config)
 
 #Loads the last checkpoint if exists:
 p = load_last_checkpoint()
+
+
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
