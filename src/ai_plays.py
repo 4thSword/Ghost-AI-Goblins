@@ -4,7 +4,7 @@ import cv2
 import pickle
 import numpy as np
 import visualize
-import glob
+import glob, os
 
 def image_to_array(image,inx,iny):
     # Converts image to an inx * iny size, change color to greyscale and flatten it into 1D ndarray
@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
     winner = p.run(eval_genomes)
 
-    visualize.draw_net(config, winner, True, node_names=node_names)
+    visualize.draw_net(config, , True, node_names=node_names)
     visualize.plot_stats(stats, ylog=False, view=True)
     visualize.plot_species(stats, view=True)
     
