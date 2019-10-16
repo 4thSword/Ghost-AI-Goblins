@@ -103,18 +103,14 @@ if __name__ == "__main__":
 
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
-    
     p.add_reporter(stats)
+
     
     # Save the process after each 10 Generations
     p.add_reporter(neat.Checkpointer(10,filename_prefix='../checkpoints/neat-checkpoint-'))
 
     winner = p.run(eval_genomes)
 
-    visualize.draw_net(config, , True, node_names=node_names)
-    visualize.plot_stats(stats, ylog=False, view=True)
-    visualize.plot_species(stats, view=True)
-    
 
     with open('winner.pkl', 'wb') as output:
         pickle.dump(winner, output, 1)
