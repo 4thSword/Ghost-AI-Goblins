@@ -54,11 +54,7 @@ class Worker(object):
                 # count the frames until it successful
 
             # Train for maxs
-<<<<<<< HEAD
-            if done or counter == 750:
-=======
             if done or counter == 850:
->>>>>>> dev
                 done = True 
             
                          

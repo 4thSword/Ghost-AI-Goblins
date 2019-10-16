@@ -94,15 +94,11 @@ if __name__ == "__main__":
 
     
     p = neat.Population(config)
-<<<<<<< HEAD
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-24')
-=======
 
     # Restore the last checkpoint:
     p = load_last_checkpoint()
     # Uncomment to restore a selected checkpoint if don't want to restore last checkpoint 
     #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-803')
->>>>>>> dev
 
     
 
