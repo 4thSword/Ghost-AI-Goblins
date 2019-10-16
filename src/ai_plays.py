@@ -4,7 +4,7 @@ import cv2
 import pickle
 import numpy as np
 import visualize
-import glob
+import glob, os
 
 def image_to_array(image,inx,iny):
     # Converts image to an inx * iny size, change color to greyscale and flatten it into 1D ndarray
@@ -63,7 +63,7 @@ def eval_genomes(genomes, config):
                 counter+=1
                 # count the frames until it successful
 
-            # Train for max 250 frames
+            # Train for max 750 frames
             if done or counter == 750:
                 done = True 
                 print(genome_id,fitness_current)
@@ -72,18 +72,19 @@ def eval_genomes(genomes, config):
 
 def load_last_checkpoint():
     try:
+        os.chdir('../checkpoints')
         checkpoints = [f for f in glob.glob('neat-checkpoint-*')]
         checkpoints = [int(f[16:])for f in checkpoints]
         checkpoints.sort()
         return neat.Checkpointer.restore_checkpoint('neat-checkpoint-{}'.format(checkpoints[-1]))
     except:
         print('No checkpoints in our folder, starting training from generation 0')
-
+        return neat.Population(config)
 
 if __name__ == "__main__":
     # Creates our ghosts and goblings environment:
     #env = retro.make('GhostsnGoblins-Nes','Level1')
-    env = retro.make(game='GhostsnGoblins-Nes', record='.')
+    env = retro.make(game='GhostsnGoblins-Nes', record='../records')
     # Loads our selected configuration for our Neat neural network:
     config = neat.Config(neat.DefaultGenome,neat.DefaultReproduction,neat.DefaultSpeciesSet,neat.DefaultStagnation,'config-feedforward')
 
@@ -92,11 +93,9 @@ if __name__ == "__main__":
         genome = pickle.load(input_file)
     '''
 
-    
-    p = neat.Population(config)
-
-    # Restore the last checkpoint:
+    # Restore the last checkpoint if exist, else starts from zero:
     p = load_last_checkpoint()
+
     # Uncomment to restore a selected checkpoint if don't want to restore last checkpoint 
     #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-803')
 
@@ -108,11 +107,11 @@ if __name__ == "__main__":
     p.add_reporter(stats)
     
     # Save the process after each 10 Generations
-    p.add_reporter(neat.Checkpointer(10))
+    p.add_reporter(neat.Checkpointer(10,filename_prefix='../checkpoints/neat-checkpoint-'))
 
     winner = p.run(eval_genomes)
 
-    visualize.draw_net(config, winner, True, node_names=node_names)
+    visualize.draw_net(config, , True, node_names=node_names)
     visualize.plot_stats(stats, ylog=False, view=True)
     visualize.plot_species(stats, view=True)
     

@@ -1,6 +1,7 @@
 #Folders
 game_data
 __pycache__
+.ipynb_checkpoints
 
 #Files
 *.ipynb
