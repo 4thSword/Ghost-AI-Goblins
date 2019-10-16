@@ -90,10 +90,6 @@ p = neat.Population(config)
 p = load_last_checkpoint()
 
 
-<<<<<<< HEAD
-p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-24')
-=======
->>>>>>> dev
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)

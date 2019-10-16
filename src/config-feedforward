@@ -2,11 +2,7 @@
 
 [NEAT]
 fitness_criterion     = max
-<<<<<<< HEAD
-fitness_threshold     = 50000
-=======
 fitness_threshold     = 100000
->>>>>>> dev
 pop_size              = 40
 reset_on_extinction   = True
 

@@ -64,11 +64,7 @@ def eval_genomes(genomes, config):
                 # count the frames until it successful
 
             # Train for max 250 frames
-<<<<<<< HEAD
-            if done or counter == 700:
-=======
             if done or counter == 750:
->>>>>>> dev
                 done = True 
                 print(genome_id,fitness_current)
             
