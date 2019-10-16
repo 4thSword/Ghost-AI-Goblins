@@ -1,10 +1,10 @@
 #Folders
 game_data
 __pycache__
+.ipynb_checkpoints
 
 #Files
 *.ipynb
 *.bk2
 *.mp4
 neat-checkpoint-*   
-.ipynb_checkpoints
