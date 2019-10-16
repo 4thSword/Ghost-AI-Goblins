@@ -3,7 +3,7 @@ import numpy as np  # pip install numpy
 import cv2          # pip install opencv-python
 import neat         # pip install neat-python
 import pickle       # pip install cloudpickle
-import os
+import glob
 
 class Worker(object):
     def __init__(self, genome, config):
@@ -54,23 +54,30 @@ class Worker(object):
                 # count the frames until it successful
 
             # Train for maxs
+<<<<<<< HEAD
             if done or counter == 750:
+=======
+            if done or counter == 850:
+>>>>>>> dev
                 done = True 
-                print(fitness_current)
             
-            
-
-
-            
-            
-                
-        print(fitness_current)
+                         
+        print(self.genome.key,fitness_current)
         return fitness_current
 
 def eval_genomes(genome, config):
     
     worky = Worker(genome, config)
     return worky.work()
+
+def load_last_checkpoint():
+    try:
+        checkpoints = [f for f in glob.glob('neat-checkpoint-*')]
+        checkpoints = [int(f[16:])for f in checkpoints]
+        checkpoints.sort()
+        return neat.Checkpointer.restore_checkpoint('neat-checkpoint-{}'.format(checkpoints[-1]))
+    except:
+        print('No checkpoints in our folder, starting training from generation 0')
 
 
 config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, 
@@ -79,8 +86,14 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
 
 p = neat.Population(config)
 
+#Loads the last checkpoint if exists:
+p = load_last_checkpoint()
 
+
+<<<<<<< HEAD
 p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-24')
+=======
+>>>>>>> dev
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
