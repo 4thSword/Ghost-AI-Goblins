@@ -1,8 +1,8 @@
-import retro        # pip install gym-retro
-import numpy as np  # pip install numpy
-import cv2          # pip install opencv-python
-import neat         # pip install neat-python
-import pickle       # pip install cloudpickle
+import retro       
+import numpy as np  
+import cv2          
+import neat         
+import pickle      
 import glob, os
 
 class Worker(object):
@@ -90,10 +90,15 @@ p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
 p.add_reporter(neat.Checkpointer(10,filename_prefix='../checkpoints/neat-checkpoint-'))
-
 pe = neat.ParallelEvaluator(8, eval_genomes)
 
 winner = p.run(pe.evaluate)
-
+stats.save()
+#after training shows the network structure and stats of the trainign process:
+visualize.draw_net(config, winner, True)
+visualize.plot_stats(stats, ylog=False, view=True)
+visualize.plot_species(stats, view=True)
+     
+#Save the trained model into a pickle file
 with open('winner.pkl', 'wb') as output:
     pickle.dump(winner, output, 1)
