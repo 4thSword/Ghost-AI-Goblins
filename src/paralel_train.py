@@ -57,7 +57,7 @@ class Worker(object):
             if done or counter == 850:
                 done = True 
             
-                         
+                        
         print(self.genome.key,fitness_current)
         return fitness_current
 
