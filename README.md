@@ -24,6 +24,15 @@ Reinforcement Learning is one of three basic machine learning paradigms, alongsi
 
 
  ## OpenAI Gym-Retro
+ [Gym-Retro](https://buildmedia.readthedocs.org/media/pdf/retro/latest/retro.pdf) is a tool developed by Open-AI that provides an esay way to create a retro-gaming environment. It gave to the user a 'friendly' way to build an interaction between our neural network and the game.
+
+ For each instant of time, our environment receives an array of 9 positions of zeros or ones that matches with the 9 buttons of our console gamepad. As a response of this buttons input, it returns to our neural network an image showing the next frame of the game state and a reward acording to our script pecifications.
+
+ ## NEAT Neural Network
+[NeuroEvolution of Augmenting Topologies](http://nn.cs.utexas.edu/downloads/papers/stanley.cec02.pdf) (NEAT) is a genetic algorithm (GA) for the generation of evolving artificial neural networks (a neuroevolution technique) developed by Ken Stanley in 2002 while at The University of Texas at Austin. It alters both the weighting parameters and structures of networks, attempting to find a balance between the fitness of evolved solutions and their diversity. It is based on applying three key techniques: tracking genes with history markers to allow crossover among topologies, applying speciation (the evolution of species) to preserve innovations, and developing topologies incrementally from simple initial structures ("complexifying"). 
+
+## Project Structure
+This project 
 
  
 
