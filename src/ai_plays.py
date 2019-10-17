@@ -38,7 +38,7 @@ def eval_genomes(genomes, config):
 
         while not done:
             # Shows the game playing, comment it to a fas training.
-            env.render() 
+            env.render()
             frame+=1
 
             #Converts the curent frame to grayscale, reduces it and flatten into an array.

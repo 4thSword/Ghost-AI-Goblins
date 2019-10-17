@@ -206,7 +206,7 @@ class RetroInteractive(Interactive):
     def __init__(self, game, state, scenario):
         env = retro.make(game=game, state=state, scenario=scenario)
         self._buttons = env.buttons
-        super().__init__(env=env, sync=False, tps=60, aspect_ratio=4/3)
+        super().__init__(env=env, sync=False, tps=30, aspect_ratio=4/3)
 
     def get_image(self, _obs, env):
         return env.render(mode='rgb_array')

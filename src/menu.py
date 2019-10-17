@@ -8,15 +8,15 @@ from os import system
 class main_menu():
     def __init__(self):
         self.root = Tk()
-        self.root.geometry('1000x1000')
+        #self.root.geometry('1000x1000')
         self.root.configure(bg = 'black')
         self.root.title("Ghost'n OpenAI'n Goblins")
         self.keyfont = font.Font(size=40, weight='bold')
         self.button1 = Button(self.root, text='Exit',font=self.keyfont ,command=self.root.destroy).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
-        self.button2 = Button(self.root, text='Play Game',font=self.keyfont, command=quit).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
-        self.button3 = Button(self.root, text='AI Plays',font=self.keyfont, command=self.ia_play).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
-        self.button4 = Button(self.root, text='Train AI',font= self.keyfont, command=self.train).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
-        self.button4 = Button(self.root, text='Render Records to mp4',font= self.keyfont, command=self.render_records).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
+        self.button2 = Button(self.root, text='Render Records to mp4',font= self.keyfont, command=self.render_records).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
+        self.button3 = Button(self.root, text='Train AI',font= self.keyfont, command=self.train).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
+        self.button4 = Button(self.root, text='AI Plays',font=self.keyfont, command=self.ia_play).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
+        self.button5 = Button(self.root, text='Play Game',font=self.keyfont, command=self.interactive).pack(side=BOTTOM, fill=BOTH, expand=True, padx=5, pady=5)
 
         
         self.root.mainloop()
