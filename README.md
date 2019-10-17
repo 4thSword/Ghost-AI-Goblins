@@ -1,4 +1,4 @@
-# GHOST-AI-GOBLINS
+# OPEN-AI plays GHOST'N GOBLINS
 ![Ghost'N'Goblins](Images/gng-cover.jpg)
 
 ## Overview
